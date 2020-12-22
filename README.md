@@ -236,3 +236,5 @@ PIR 事實上是一種 "Motion Sensor"。也就是要有 "Motion" 才會被偵�
 
 
 ~ END ~
+
+![](https://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png)
