@@ -1,4 +1,4 @@
-# Smart Home 原型
+# Smart Home 原型製作
 
 
 ## 關於這個 repo
