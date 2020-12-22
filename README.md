@@ -8,6 +8,12 @@
 對教案有興趣的，可以看 [Home-Automation_draft.pdf](Home-Automation_draft.pdf) 了解當初設計的初始想法（筆記用的，不算正式的投影片）。目的是讓學生了解一個智慧系統是由多個感測器互相組合而成的。
 
 
+![](images/demo-01.png)
+
+
+![](images/demo-02.png)
+
+
 ## 開發板
 
 使用的開發板是 WeMos-D1-R1。pinout/ 內有兩張圖檔說明它的 pinout 配置。使用這張開發板的原因是因為它長得就是 Arduino UNO 的樣子，對初學者來說或許比較熟悉些。它的主要控制晶片是具有 WiFi 功能的 ESP8266，所以可以連網做些 IoT 的應用。但如果我自己要做的話，我會選像是 D1-mini 這樣較小巧的開發板，或是乾脆直接使用 ESP32 的開發板。
