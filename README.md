@@ -38,6 +38,9 @@
 整體的運作方式是這樣的：你需要寫個的程式對 IFTTT 提供的 "WebHook URL" 送出 HTTP request。這個 request 會夾帶你的訊息，訊息的內容可能是房間內的溫溼度資訊，或是房間內有沒有人。IFTTT 會將你夾帶的資料轉送給你的 LINE Notify 服務。最後你就可以在手機上收到 LINE 訊息了。
 
 
+ps: 先不要擔心 "夾帶訊息" 的事情，後面我會用個簡單的例子說明。
+
+
 	[code running in arduino]==>((HTTP GET/POST))==>[WebHook from IFTTT]==>[LINE Notify]==>[your phone App]
 
 
@@ -57,15 +60,34 @@
 
 完成後，你就只剩下 1) 的部分要處理了。
 
-你要先了解如何使用 WebHook 提供的 "REST-Api"，其實這個名詞沒有那麼艱澀，實際上真正做的事情就是對某個 URL 送出一個 HTTP 的 GET 或是 POST。GET 就像是你在網址列上輸入 URL 然後按 Enter 前往。POST 就像你在網頁上填好問卷後按了傳送。而 WebHook 同時支援這兩種方式。
+你要先了解如何使用 WebHook 提供的 "REST-Api"，其實這個名詞沒有那麼艱澀，實際上真正做的事情就是對某個 URL 送出一個 HTTP 的 GET 或是 POST。GET 就像是你在網址列上輸入 URL 然後按 Enter 前往。POST 就像你在網頁上填好問卷後按了傳送。而 WebHook 同時支援這兩種方式。目前我們的選擇是 GET。
 
-只要進入 IFTTT 的 WebHook 設定頁面，就可以線上測試 WebHook 的呼叫。這讓你在尚未寫任何一行程式之前，就能先測試從 WebHook 到 LINE Notify 這段路徑是不是通的。
+
+### HTTP GET
+
+說明一下「透過 HTTP GET 夾帶訊息給 WebHook」這件事是什麼意思？其實你一直在使用它。每當你使用 Google 搜尋關鍵字時，其實你就將你的關鍵字當作夾帶訊息，然後以 HTTP GET 的方式送給 Google　伺服器，然後 Google 再將結果返回到你的瀏覽器上。
+
+例如，你在 google 上搜尋 "比andrew還帥的人"，雖然 google 會告訴你 "找不到比andrew還帥的人"，但這不是重點 XD，重點是往上看你瀏覽器的網址列。如果你仔細看那段 URL 文字的規則，你會發現其實它含有一堆以 `&` 連接的資料傳遞，例如下圖中的 `q="比andrew還帥的人"` 表示傳了 `q` 給這個參數給 Google 伺服器。所以伺服器那端會有一段程式，從 q 將使用者輸入的關鍵子取出。
+
+![](images/http-get.png)
+
+不用擔心這個部分，就算你聽不懂上面這一小段的說明，你還是可以做出 demo 系統的。
+
+
+好！拉回來說 XD 只要進入 IFTTT 的 WebHook 設定頁面，就可以線上測試 WebHook 的呼叫。這讓你在尚未寫任何一行程式之前，就能先測試從 WebHook 到 LINE Notify 這段路徑是不是通的。
 
 
 ![](images/webhook.png)
 
 
-WebHook 提供的測試方式不但可以使用 curl 發送，還可以直接在瀏覽器上貼上 URL 測試，如果你的 LINE 有收到通知，就能證明這整段都是打通的。然後，你就可以 "寫程式幫你做你剛剛手動測試時所做的事情"。
+WebHook 提供的測試方式不但可以使用 curl 發送，還可以直接在瀏覽器上貼上 URL 測試，你可以試試看在網址列上貼上下面的 URL (需要更改 even name 和 key):
+
+	https://maker.ifttt.com/trigger/{你的event name}/with/key/{你的key}?value1=111&value2=222&value3=333
+
+
+如果你的 LINE 有收到通知（應該會有 111, 222, 333），就能證明這整段都是打通的。然後，你就可以 "寫程式幫你做你剛剛手動測試時所做的事情"。
+
+ps: 另外，你有沒有注意到上面的 URL 也是以 `&` 相連的？是的，它就是一種 HTTP GET resuest。 
 
 
 ## 程式碼
